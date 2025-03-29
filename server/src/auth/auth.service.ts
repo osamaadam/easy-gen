@@ -5,6 +5,7 @@ import { UserService } from 'src/user/user.service';
 import { UserDocument } from '../user/entities/user.entity';
 import { UserCreateRequestDto, UserLoginRequestDto } from './dtos/request.dto';
 import { TokenPayload } from './types/token-payload.type';
+import { UserAuthResponseDto } from './dtos/response.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(dto: UserCreateRequestDto) {
+  async register(dto: UserCreateRequestDto): Promise<UserAuthResponseDto> {
     const hashedPassword = await this.__hashPassword(dto.password);
     const user = await this.userService.createUser({
       ...dto,
@@ -49,13 +50,16 @@ export class AuthService {
     };
   }
 
-  async login({ email, password }: UserLoginRequestDto) {
+  async login({
+    email,
+    password,
+  }: UserLoginRequestDto): Promise<UserAuthResponseDto> {
     const user = await this.userService.getUserByEmail(email);
     if (!user) {
       throw new BadRequestException('Invalid credentials');
     }
 
-    const isPasswordValid = await compare(password, user.password);
+    const isPasswordValid = await compare(password, user.password!);
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid credentials');
     }
@@ -63,7 +67,7 @@ export class AuthService {
     return {
       tokens: this.__createTokens(user),
       user: {
-        id: user._id,
+        id: user._id.toString(),
         email: user.email,
         name: user.name,
       },
