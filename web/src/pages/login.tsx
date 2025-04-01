@@ -37,7 +37,10 @@ export default function Login() {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await login(values.email, values.password);
+        await login({
+          email: values.email,
+          password: values.password,
+        });
       } catch (error) {
         console.error("Login failed", error);
       }

@@ -1,8 +1,10 @@
 import axiosInstance from "./axios";
+import { LoginRequestDTO } from "./types/request/login";
+import { RegisterRequestDTO } from "./types/request/register";
 import { LoginResponse } from "./types/response/login";
 import { TokenResponse } from "./types/response/tokens";
 
-export function loginRequest(email: string, password: string) {
+export function loginRequest({ email, password }: LoginRequestDTO) {
   return axiosInstance.post<LoginResponse>("/auth/login", {
     email,
     password,
@@ -17,10 +19,6 @@ export function refreshRequest(refreshToken: string) {
   });
 }
 
-export function registerRequest(registerDTO: {
-  name: string;
-  email: string;
-  password: string;
-}) {
+export function registerRequest(registerDTO: RegisterRequestDTO) {
   return axiosInstance.post<LoginResponse>("/auth/register", registerDTO);
 }

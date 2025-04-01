@@ -6,7 +6,8 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router";
-import { loginRequest } from "../api/auth";
+import { loginRequest, registerRequest } from "../api/auth";
+import { LoginRequestDTO } from "../api/types/request/login";
 import { LocalStorageKeys } from "../enums/local-storage-keys";
 import { AuthContextType, User } from "./types/auth-context";
 
@@ -61,8 +62,8 @@ export default function AuthProvider({
   );
 
   const login = useCallback(
-    async (email: string, password: string) => {
-      const response = await loginRequest(email, password);
+    async (loginDTO: LoginRequestDTO) => {
+      const response = await loginRequest(loginDTO);
 
       const { user, tokens } = response.data;
 
@@ -87,13 +88,31 @@ export default function AuthProvider({
     navigate("/login", { replace: true });
   }, [navigate, setSession]);
 
+  const register = useCallback(
+    async (registerDTO: { name: string; email: string; password: string }) => {
+      const response = await registerRequest(registerDTO);
+
+      const { user, tokens } = response.data;
+
+      setSession({
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        user,
+      });
+
+      navigate("/", { replace: true });
+    },
+    [navigate, setSession]
+  );
+
   const value: AuthContextType = useMemo(
     () => ({
       login,
+      register,
       logout,
       user,
     }),
-    [login, logout, user]
+    [login, logout, user, register]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

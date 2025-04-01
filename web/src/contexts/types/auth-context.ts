@@ -1,3 +1,6 @@
+import { LoginRequestDTO } from "../../api/types/request/login";
+import { RegisterRequestDTO } from "../../api/types/request/register";
+
 export interface User {
   id: string;
   email: string;
@@ -6,6 +9,7 @@ export interface User {
 
 export interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (loginRequestDTO: LoginRequestDTO) => Promise<void>;
+  register: (registerDTO: RegisterRequestDTO) => Promise<void>;
   logout: () => void;
 }
