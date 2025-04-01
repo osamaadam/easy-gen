@@ -1,0 +1,4 @@
+@use "variables" as vars;
+
+// Apply CSS custom properties globally
+@include vars.define-css-variables;
