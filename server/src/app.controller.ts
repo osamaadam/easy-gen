@@ -13,7 +13,6 @@ export class AppController {
 
   @ApiProperty({
     description: 'Hello world endpoint',
-    example: 'Hello world!',
   })
   @ApiOkResponse({
     type: UserEntity,
@@ -23,6 +22,6 @@ export class AppController {
   async getHello(@User() tokenPayload: TokenPayload) {
     const user = await this.appService.home(tokenPayload);
 
-    return plainToInstance(UserEntity, user?.toObject());
+    return plainToInstance(UserEntity, user);
   }
 }

@@ -1,9 +1,24 @@
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router";
-import useAuth from "../hooks/useAuth";
+import { getMe } from "../api";
+import { User } from "../contexts/types/auth-context";
 import "../styles/home.scss";
 
 export default function Home() {
-  const { user } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
+
+  const getCurrentUser = useCallback(async () => {
+    try {
+      const response = await getMe();
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getCurrentUser();
+  }, [getCurrentUser]);
 
   return (
     <div className="home-container">

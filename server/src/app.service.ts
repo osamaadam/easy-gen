@@ -9,6 +9,9 @@ export class AppService {
   async home(payload: TokenPayload) {
     const user = await this.userService.getUserById(payload.id);
 
-    return user;
+    return {
+      ...user?.toObject(),
+      id: user?._id,
+    };
   }
 }
