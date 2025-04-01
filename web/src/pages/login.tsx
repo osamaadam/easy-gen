@@ -57,7 +57,12 @@ export default function Login() {
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" {...formik.getFieldProps("email")} />
+          <input
+            id="email"
+            type="email"
+            placeholder="user@example.com"
+            {...formik.getFieldProps("email")}
+          />
           {formik.errors.email ? (
             <div className="error">{formik.errors.email}</div>
           ) : null}
@@ -68,6 +73,7 @@ export default function Login() {
           <input
             id="password"
             type="password"
+            placeholder="StrongP@ss123"
             {...formik.getFieldProps("password")}
           />
           {formik.errors.password ? (

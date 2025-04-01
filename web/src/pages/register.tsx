@@ -65,7 +65,12 @@ export default function Register() {
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
-          <input id="name" type="text" {...formik.getFieldProps("name")} />
+          <input
+            id="name"
+            type="text"
+            placeholder="John Smith"
+            {...formik.getFieldProps("name")}
+          />
           {formik.errors.name ? (
             <div className="error">{formik.errors.name}</div>
           ) : null}
@@ -73,7 +78,12 @@ export default function Register() {
 
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" {...formik.getFieldProps("email")} />
+          <input
+            id="email"
+            type="email"
+            placeholder="user@example.com"
+            {...formik.getFieldProps("email")}
+          />
           {formik.errors.email ? (
             <div className="error">{formik.errors.email}</div>
           ) : null}
@@ -84,6 +94,7 @@ export default function Register() {
           <input
             id="password"
             type="password"
+            placeholder="StrongP@ss123"
             {...formik.getFieldProps("password")}
           />
           {formik.errors.password ? (
@@ -96,6 +107,7 @@ export default function Register() {
           <input
             id="confirmPassword"
             type="password"
+            placeholder="StrongP@ss123"
             {...formik.getFieldProps("confirmPassword")}
           />
           {formik.errors.confirmPassword ? (
