@@ -1,4 +1,5 @@
 import { createContext, useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import { loginRequest } from "../api/auth";
 import { LocalStorageKeys } from "../enums/local-storage-keys";
 import { AuthContextType, User } from "./types/auth-context";
@@ -12,6 +13,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
 
   const setSession = useCallback(
     ({
@@ -49,8 +51,10 @@ export default function AuthProvider({
         refreshToken: tokens.refreshToken,
         user,
       });
+
+      navigate("/", { replace: true });
     },
-    [setSession]
+    [navigate, setSession]
   );
 
   const logout = useCallback(() => {
@@ -60,11 +64,23 @@ export default function AuthProvider({
       user: null,
     });
 
-    return;
-  }, [setSession]);
+    navigate("/login", { replace: true });
+  }, [navigate, setSession]);
 
   const getUser = useCallback(() => {
-    return user;
+    if (user) {
+      return user;
+    }
+
+    const userString = localStorage.getItem(LocalStorageKeys.USER);
+
+    if (userString) {
+      const parsedUser = JSON.parse(userString);
+      setUser(parsedUser);
+      return parsedUser;
+    }
+
+    return null;
   }, [user]);
 
   const value: AuthContextType = useMemo(

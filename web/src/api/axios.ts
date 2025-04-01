@@ -3,7 +3,7 @@ import { LocalStorageKeys } from "../enums/local-storage-keys";
 import { refreshRequest } from "./auth";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.VITE_BACKEND_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 // Request interceptor for API calls

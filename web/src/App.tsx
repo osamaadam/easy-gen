@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import useAuth from "./hooks/useAuth";
+import Login from "./pages/login";
 
 export default function App() {
   const { getUser } = useAuth();
@@ -14,5 +15,12 @@ export default function App() {
     }
   }, [getUser, navigate]);
 
-  return <h1>Hello World!</h1>;
+  return (
+    <Routes>
+      <Route path="/" element={<div>Home</div>} />
+      <Route path="/login" Component={Login} />
+      <Route path="/register" element={<div>Register</div>} />
+      <Route path="*" element={<div>404 Not Found</div>} />
+    </Routes>
+  );
 }
