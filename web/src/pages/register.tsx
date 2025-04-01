@@ -3,13 +3,12 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { object, ref, string } from "yup";
-import { registerRequest } from "../api/auth";
+import LoadingFallback from "../components/LoadingFallback";
 import useAuth from "../hooks/useAuth";
 import "../styles/forms.scss";
-import LoadingFallback from "../components/LoadingFallback";
 
 export default function Register() {
-  const { user } = useAuth();
+  const { user, register } = useAuth();
   const navigate = useNavigate();
   const [registerError, setRegisterError] = useState("");
 
@@ -52,7 +51,7 @@ export default function Register() {
         setRegisterError("");
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { confirmPassword, ...submitData } = values;
-        await registerRequest(submitData);
+        await register(submitData);
       } catch (error) {
         console.error("Registration failed", error);
         if (isAxiosError(error)) {
