@@ -1,5 +1,6 @@
+import { isAxiosError } from "axios";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { object, ref, string } from "yup";
 import { registerRequest } from "../api/auth";
@@ -9,6 +10,7 @@ import "../styles/forms.scss";
 export default function Register() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [registerError, setRegisterError] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -46,11 +48,22 @@ export default function Register() {
     validationSchema,
     onSubmit: async (values) => {
       try {
+        setRegisterError("");
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { confirmPassword, ...submitData } = values;
         await registerRequest(submitData);
       } catch (error) {
         console.error("Registration failed", error);
+        if (isAxiosError(error)) {
+          setRegisterError(
+            error.response?.data?.message ||
+              "Registration failed. Please try again."
+          );
+        } else {
+          setRegisterError(
+            "An unexpected error occurred. Please try again later."
+          );
+        }
       }
     },
   });
@@ -62,6 +75,9 @@ export default function Register() {
   return (
     <div className="form-container">
       <h1>Register</h1>
+
+      {registerError && <div className="error-message">{registerError}</div>}
+
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>

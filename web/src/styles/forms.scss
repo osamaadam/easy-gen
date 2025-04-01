@@ -80,3 +80,13 @@
     padding: var(--spacing-3);
   }
 }
+
+.error-message {
+  margin-bottom: var(--spacing-3);
+  color: var(--color-danger);
+  background-color: rgba(220, 53, 69, 0.1);
+  padding: var(--spacing-2);
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-size: var(--font-size-sm);
+}

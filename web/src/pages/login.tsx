@@ -1,5 +1,6 @@
+import { isAxiosError } from "axios";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { object, string } from "yup";
 import useAuth from "../hooks/useAuth";
@@ -8,6 +9,7 @@ import "../styles/forms.scss";
 export default function Login() {
   const { user, login } = useAuth();
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -38,12 +40,22 @@ export default function Login() {
     validationSchema,
     onSubmit: async (values) => {
       try {
+        setLoginError("");
         await login({
           email: values.email,
           password: values.password,
         });
       } catch (error) {
         console.error("Login failed", error);
+        if (isAxiosError(error)) {
+          setLoginError(
+            error.response?.data?.message || "Invalid email or password."
+          );
+        } else {
+          setLoginError(
+            "An unexpected error occurred. Please try again later."
+          );
+        }
       }
     },
   });
@@ -81,6 +93,7 @@ export default function Login() {
           ) : null}
         </div>
 
+        {loginError && <div className="error-message">{loginError}</div>}
         <button type="submit">Login</button>
       </form>
       <p style={{ marginTop: "var(--spacing-3)", textAlign: "center" }}>
