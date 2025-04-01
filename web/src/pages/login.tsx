@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { object, string } from "yup";
 import useAuth from "../hooks/useAuth";
 import "../styles/forms.scss";
@@ -63,7 +63,7 @@ export default function Login() {
             placeholder="user@example.com"
             {...formik.getFieldProps("email")}
           />
-          {formik.errors.email ? (
+          {formik.errors.email && formik.touched.email ? (
             <div className="error">{formik.errors.email}</div>
           ) : null}
         </div>
@@ -76,7 +76,7 @@ export default function Login() {
             placeholder="StrongP@ss123"
             {...formik.getFieldProps("password")}
           />
-          {formik.errors.password ? (
+          {formik.errors.password && formik.touched.password ? (
             <div className="error">{formik.errors.password}</div>
           ) : null}
         </div>

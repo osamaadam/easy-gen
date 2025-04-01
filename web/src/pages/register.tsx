@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { object, string, ref } from "yup";
+import { Link, useNavigate } from "react-router";
+import { object, ref, string } from "yup";
 import { registerRequest } from "../api/auth";
-import { useNavigate, Link } from "react-router";
 import useAuth from "../hooks/useAuth";
 import "../styles/forms.scss";
 
@@ -71,7 +71,7 @@ export default function Register() {
             placeholder="John Smith"
             {...formik.getFieldProps("name")}
           />
-          {formik.errors.name ? (
+          {formik.errors.name && formik.touched.name ? (
             <div className="error">{formik.errors.name}</div>
           ) : null}
         </div>
@@ -84,7 +84,7 @@ export default function Register() {
             placeholder="user@example.com"
             {...formik.getFieldProps("email")}
           />
-          {formik.errors.email ? (
+          {formik.errors.email && formik.touched.email ? (
             <div className="error">{formik.errors.email}</div>
           ) : null}
         </div>
@@ -97,7 +97,7 @@ export default function Register() {
             placeholder="StrongP@ss123"
             {...formik.getFieldProps("password")}
           />
-          {formik.errors.password ? (
+          {formik.errors.password && formik.touched.password ? (
             <div className="error">{formik.errors.password}</div>
           ) : null}
         </div>
@@ -110,7 +110,7 @@ export default function Register() {
             placeholder="StrongP@ss123"
             {...formik.getFieldProps("confirmPassword")}
           />
-          {formik.errors.confirmPassword ? (
+          {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
             <div className="error">{formik.errors.confirmPassword}</div>
           ) : null}
         </div>
