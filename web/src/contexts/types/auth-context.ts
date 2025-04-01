@@ -5,7 +5,7 @@ export interface User {
 }
 
 export interface AuthContextType {
-  getUser: () => User | null;
+  user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
 }

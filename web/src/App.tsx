@@ -4,16 +4,14 @@ import useAuth from "./hooks/useAuth";
 import Login from "./pages/login";
 
 export default function App() {
-  const { getUser } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = getUser();
-
     if (!user) {
       navigate("/login");
     }
-  }, [getUser, navigate]);
+  }, [user, navigate]);
 
   return (
     <Routes>

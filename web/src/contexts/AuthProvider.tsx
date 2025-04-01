@@ -1,4 +1,10 @@
-import { createContext, useCallback, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useNavigate } from "react-router";
 import { loginRequest } from "../api/auth";
 import { LocalStorageKeys } from "../enums/local-storage-keys";
@@ -14,6 +20,20 @@ export default function AuthProvider({
 }) {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      return;
+    }
+
+    const userString = localStorage.getItem(LocalStorageKeys.USER);
+    if (!userString) {
+      return;
+    }
+
+    const parsedUser = JSON.parse(userString);
+    setUser(parsedUser);
+  }, [user]);
 
   const setSession = useCallback(
     ({
@@ -67,29 +87,13 @@ export default function AuthProvider({
     navigate("/login", { replace: true });
   }, [navigate, setSession]);
 
-  const getUser = useCallback(() => {
-    if (user) {
-      return user;
-    }
-
-    const userString = localStorage.getItem(LocalStorageKeys.USER);
-
-    if (userString) {
-      const parsedUser = JSON.parse(userString);
-      setUser(parsedUser);
-      return parsedUser;
-    }
-
-    return null;
-  }, [user]);
-
   const value: AuthContextType = useMemo(
     () => ({
       login,
       logout,
-      getUser,
+      user,
     }),
-    [login, logout, getUser]
+    [login, logout, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

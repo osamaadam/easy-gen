@@ -5,17 +5,16 @@ import { object, string } from "yup";
 import useAuth from "../hooks/useAuth";
 
 export default function Login() {
-  const { getUser, login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = getUser();
     if (!user) {
       return;
     }
 
     navigate("/", { replace: true });
-  }, [getUser, navigate]);
+  }, [user, navigate]);
 
   const validationSchema = object().shape({
     email: string().email().required("Email is required"),
@@ -45,7 +44,7 @@ export default function Login() {
     },
   });
 
-  if (getUser()) {
+  if (user) {
     return null;
   }
   return (
