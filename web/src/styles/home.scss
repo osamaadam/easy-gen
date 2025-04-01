@@ -1,0 +1,54 @@
+@import "./variables";
+
+.user-info-card {
+  width: 100%;
+  max-width: 500px;
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius);
+  background-color: var(--color-gray-50, #fafafa);
+  box-shadow: var(--box-shadow-sm);
+
+  h2 {
+    margin-bottom: var(--spacing-3);
+    color: var(--color-gray-800);
+    font-size: var(--font-size-lg);
+    text-align: center;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+
+  .user-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+
+    @media (min-width: 576px) {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .label {
+      font-weight: 500;
+      color: var(--color-gray-700);
+      min-width: 80px;
+    }
+
+    .value {
+      color: var(--color-gray-900);
+    }
+
+    .user-id {
+      font-family: monospace;
+      background-color: var(--color-gray-200);
+      padding: var(--spacing-1) var(--spacing-2);
+      border-radius: var(--border-radius-sm);
+      font-size: 0.9em;
+      word-break: break-all;
+    }
+  }
+}
