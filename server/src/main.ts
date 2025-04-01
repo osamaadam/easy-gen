@@ -9,6 +9,11 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
+  // Enable CORS
+  app.enableCors({
+    origin: '*',
+  });
+
   // Pino logger setup
   app.useLogger(app.get(Logger));
 
