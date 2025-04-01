@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { getMe } from "../api";
 import { User } from "../contexts/types/auth-context";
 import "../styles/home.scss";
+import LoadingFallback from "../components/LoadingFallback";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -20,6 +21,9 @@ export default function Home() {
     getCurrentUser();
   }, [getCurrentUser]);
 
+  if (!user) {
+    return <LoadingFallback />;
+  }
   return (
     <div className="home-container">
       <h1>Welcome to EasyAuth</h1>

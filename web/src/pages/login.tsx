@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router";
 import { object, string } from "yup";
 import useAuth from "../hooks/useAuth";
 import "../styles/forms.scss";
+import LoadingFallback from "../components/LoadingFallback";
 
 export default function Login() {
   const { user, login } = useAuth();
@@ -61,7 +62,7 @@ export default function Login() {
   });
 
   if (user) {
-    return null;
+    return <LoadingFallback />;
   }
   return (
     <div className="form-container">

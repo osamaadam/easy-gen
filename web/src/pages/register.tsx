@@ -6,6 +6,7 @@ import { object, ref, string } from "yup";
 import { registerRequest } from "../api/auth";
 import useAuth from "../hooks/useAuth";
 import "../styles/forms.scss";
+import LoadingFallback from "../components/LoadingFallback";
 
 export default function Register() {
   const { user } = useAuth();
@@ -69,7 +70,7 @@ export default function Register() {
   });
 
   if (user) {
-    return null;
+    return <LoadingFallback />;
   }
 
   return (

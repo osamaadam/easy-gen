@@ -13,15 +13,19 @@ const Register = lazy(() => import("./pages/register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
-  const { user } = useAuth();
+  const { user, status } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (!user && authenticatedRoutes.includes(location.pathname)) {
+    if (
+      !user &&
+      authenticatedRoutes.includes(location.pathname) &&
+      status === "error"
+    ) {
       navigate("/login");
     }
-  }, [user, navigate, location.pathname]);
+  }, [user, navigate, location.pathname, status]);
 
   return (
     <>

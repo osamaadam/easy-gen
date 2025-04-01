@@ -7,8 +7,11 @@ export interface User {
   name: string;
 }
 
+export type Status = "idle" | "loading" | "success" | "error";
+
 export interface AuthContextType {
   user: User | null;
+  status: Status;
   login: (loginRequestDTO: LoginRequestDTO) => Promise<void>;
   register: (registerDTO: RegisterRequestDTO) => Promise<void>;
   logout: () => void;

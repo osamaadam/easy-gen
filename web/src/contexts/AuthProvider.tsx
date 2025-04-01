@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 import { loginRequest, registerRequest } from "../api/auth";
 import { LoginRequestDTO } from "../api/types/request/login";
 import { LocalStorageKeys } from "../enums/local-storage-keys";
-import { AuthContextType, User } from "./types/auth-context";
+import { AuthContextType, Status, User } from "./types/auth-context";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -20,6 +20,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  const [status, setStatus] = useState<Status>("idle");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,13 +28,17 @@ export default function AuthProvider({
       return;
     }
 
+    setStatus("loading");
+
     const userString = localStorage.getItem(LocalStorageKeys.USER);
     if (!userString) {
+      setStatus("error");
       return;
     }
 
     const parsedUser = JSON.parse(userString);
     setUser(parsedUser);
+    setStatus("success");
   }, [user]);
 
   const setSession = useCallback(
@@ -51,11 +56,13 @@ export default function AuthProvider({
         localStorage.setItem(LocalStorageKeys.REFRESH_TOKEN, refreshToken);
         localStorage.setItem(LocalStorageKeys.USER, JSON.stringify(user));
         setUser(user);
+        setStatus("success");
       } else {
         localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
         localStorage.removeItem(LocalStorageKeys.REFRESH_TOKEN);
         localStorage.removeItem(LocalStorageKeys.USER);
         setUser(null);
+        setStatus("error");
       }
     },
     []
@@ -111,8 +118,9 @@ export default function AuthProvider({
       register,
       logout,
       user,
+      status,
     }),
-    [login, logout, user, register]
+    [login, logout, user, status, register]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
