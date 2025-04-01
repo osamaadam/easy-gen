@@ -77,6 +77,22 @@ docker run -p 3000:3000 \
   easy-auth-backend
 ```
 
+## Testing
+
+### End-to-End Tests
+
+The project includes comprehensive end-to-end tests that verify the complete authentication flow and API functionality:
+
+- Authentication tests (register, login, token refresh)
+- Protected endpoint access validation
+- User data retrieval
+
+To run the e2e tests:
+
+```bash
+npm run test:e2e
+```
+
 ## Dependencies
 
 See [package.json](./package.json) for a complete list of dependencies.
