@@ -1,8 +1,9 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { object, string } from "yup";
 import useAuth from "../hooks/useAuth";
+import "../styles/forms.scss";
 
 export default function Login() {
   const { user, login } = useAuth();
@@ -76,6 +77,9 @@ export default function Login() {
 
         <button type="submit">Login</button>
       </form>
+      <p style={{ marginTop: "var(--spacing-3)", textAlign: "center" }}>
+        Don't have an account? <Link to="/register">Register here</Link>
+      </p>
     </div>
   );
 }

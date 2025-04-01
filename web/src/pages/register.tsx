@@ -1,8 +1,21 @@
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import { object, string, ref } from "yup";
 import { registerRequest } from "../api/auth";
+import { useNavigate, Link } from "react-router";
+import useAuth from "../hooks/useAuth";
+import "../styles/forms.scss";
 
 export default function Register() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
+
   const validationSchema = object().shape({
     name: string()
       .min(3, "Name must be at least 3 characters")
@@ -41,6 +54,10 @@ export default function Register() {
       }
     },
   });
+
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="form-container">
@@ -88,6 +105,9 @@ export default function Register() {
 
         <button type="submit">Register</button>
       </form>
+      <p style={{ marginTop: "var(--spacing-3)", textAlign: "center" }}>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
 }

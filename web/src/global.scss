@@ -1,3 +1,5 @@
+@import "./styles/variables";
+
 /* CSS Reset */
 * {
   margin: 0;
@@ -13,7 +15,9 @@ body {
 
 body {
   line-height: 1.5;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family-base);
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-900);
 }
 
 img,
@@ -34,5 +38,10 @@ select {
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: var(--color-primary);
+  transition: var(--transition-base);
+
+  &:hover {
+    color: var(--color-primary-dark);
+  }
 }
