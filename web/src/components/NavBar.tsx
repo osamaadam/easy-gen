@@ -15,7 +15,7 @@ export default function NavBar() {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-brand">
-          <Link to="/">
+          <Link to={user ? "/" : "/login"}>
             <h1>EasyAuth</h1>
           </Link>
         </div>
@@ -27,11 +27,13 @@ export default function NavBar() {
         </div>
 
         <div className={`navbar-menu ${isMenuOpen ? "active" : ""}`}>
-          <div className="navbar-start">
-            <Link to="/" className="navbar-item">
-              Home
-            </Link>
-          </div>
+          {user ? (
+            <div className="navbar-start">
+              <Link to="/" className="navbar-item">
+                Home
+              </Link>
+            </div>
+          ) : null}
 
           <div className="navbar-end">
             {user ? (
