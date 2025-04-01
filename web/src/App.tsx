@@ -3,6 +3,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router";
 import useAuth from "./hooks/useAuth";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import NavBar from "./components/NavBar";
 
 export default function App() {
   const { user } = useAuth();
@@ -17,11 +18,16 @@ export default function App() {
   }, [user, navigate, location.pathname]);
 
   return (
-    <Routes>
-      <Route index path="/" element={<div>Home</div>} />
-      <Route path="/login" Component={Login} />
-      <Route path="/register" Component={Register} />
-      <Route path="*" element={<div>404 Not Found</div>} />
-    </Routes>
+    <>
+      <NavBar />
+      <main>
+        <Routes>
+          <Route index path="/" element={<div>Home</div>} />
+          <Route path="/login" Component={Login} />
+          <Route path="/register" Component={Register} />
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Routes>
+      </main>
+    </>
   );
 }
